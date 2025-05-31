@@ -1,1 +1,1 @@
-Hello Git
+This repository contains code related to my learning process with the book "Machine Learning with Pytorch and Scikit-learn".
