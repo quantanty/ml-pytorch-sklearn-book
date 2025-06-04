@@ -20,26 +20,28 @@ Summarize MLP learning procedure in three simple steps:
 3. Backpropagate the loss, find its derivative with respect to each weight and bias unit in the network, and update the model.
 
 
-Partial derivtive of $\bm{W}$ with respect to each weight for every layer:
+Partial derivtive of $\mathbf{W}$ with respect to each weight for every layer:
+
 $$ \large
-\frac{\partial L(\bm{W}, \bm{b})}{\partial w_{j, k}^{(l)}}
+\frac{\partial L(\mathbf{W}, \mathbf{b})}{\partial w_{j, k}^{(l)}}
 $$
 
 Apply chain rule to compute gradients:
+
 $$ \large
-\frac{\partial L}{\partial \bm{Z}^{(out)}} = \frac{\partial L}{\partial \bm{A}^{(out)}}\frac{\partial \bm{A}^{(out)}}{\partial \bm{Z}^{(out)}}
+\frac{\partial L}{\partial \mathbf{Z}^{(out)}} = \frac{\partial L}{\partial \mathbf{A}^{(out)}}\frac{\partial \mathbf{A}^{(out)}}{\partial \mathbf{Z}^{(out)}}
 $$
 
 $$ \large
-\frac{\partial L}{\partial \bm{A}^{(h)}} = \frac{\partial L}{\partial \bm{Z}^{(out)}}\frac{\partial \bm{Z}^{(out)}}{\partial \bm{A}^{(h)}}
+\frac{\partial L}{\partial \mathbf{A}^{(h)}} = \frac{\partial L}{\partial \mathbf{Z}^{(out)}}\frac{\partial \mathbf{Z}^{(out)}}{\partial \mathbf{A}^{(h)}}
 $$
 
 $$ \large
-\frac{\partial L}{\partial \bm{Z}^{(h)}} = \frac{\partial L}{\partial \bm{A}^{(h)}}\frac{\partial \bm{A}^{(h)}}{\partial \bm{Z}^{(h)}}
+\frac{\partial L}{\partial \mathbf{Z}^{(h)}} = \frac{\partial L}{\partial \mathbf{A}^{(h)}}\frac{\partial \mathbf{A}^{(h)}}{\partial \mathbf{Z}^{(h)}}
 $$
 
 $$ \large
-\frac{\partial L}{\partial w_{1,1}^{(out)}} = \frac{\partial L}{\partial \bm{Z}^{(out)}} \frac{\bm{Z}^{(out)}}{\partial w_{1,1}^{(out)}}
+\frac{\partial L}{\partial w_{1,1}^{(out)}} = \frac{\partial L}{\partial \mathbf{Z}^{(out)}} \frac{\mathbf{Z}^{(out)}}{\partial w_{1,1}^{(out)}}
 $$
 
 ## Some interesting papers/articles
