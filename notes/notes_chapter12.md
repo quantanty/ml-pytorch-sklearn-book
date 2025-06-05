@@ -21,8 +21,8 @@ In this chapter, I have learned:
 - `torchvision.transforms.Compose()`: composes several transforms together.
 - `itertools.islice()`: makes an iterator that return selected elements from iterable
 - `torch.nn`: a module that contains classes and functions to build NNs.
-- `torch.MSELoss()`: creates a criterion that measures mean squared error between each element in the input x and target y.
-- `torch.Linear()`: applies an affine linear transformation to the incoming data
+- `torch.nn.MSELoss()`: creates a criterion that measures mean squared error between each element in the input x and target y.
+- `torch.nn.Linear()`: applies an affine linear transformation to the incoming data
 - `torch.optim.SGD()`: implements stochastic gradient descent.
 - `Opimizer.zero_grad()`: reset the gradents of all optimized tensor.
 - `torch.nn.CrossEntropyLoss()`: compute cross entropy loss.
