@@ -41,7 +41,7 @@ Create a `Dataset` class, define new method: `__init__()`, `__len__()`, `__getit
 
 ## Code practice
 In this chapter, I have created 3 playground notebooks:
-1.  [practice_ch12.ipynb](../practice/practice_ch12.ipynb)
+1.  [practice_ch12.ipynb](../ch12/practice_ch12.ipynb)
     - Load CelebA dataset
     - Explore dataset's target: attributes. Make a simple classification problem for the 20th attr: 'Male'
     - Build transform pipeline: resize, grayscale, totensor, normalize
@@ -52,12 +52,12 @@ In this chapter, I have created 3 playground notebooks:
     - Train model with `nn.CrossEntropyLoss` and `torch.optim.Adam`
     - Show images of wrong classified example.
 
-2.  [practice_ch12_1.ipynb](../practice/practice_ch12_1.ipynb)
+2.  [practice_ch12_1.ipynb](../ch12/practice_ch12_1.ipynb)
     This notebook is a more completely version of the previous practice file.
     - Evaluate model in each epoch, print Train loss, Train accuracy, Valid loss, Valid accuracy
     - Plot train/valid loss curve, train/valid accuracy curve.
 
-3.  [practice_ch12_2.ipynb](../practice/practice_ch12_2.ipynb)
+3.  [practice_ch12_2.ipynb](../ch12/practice_ch12_2.ipynb)
     In this notebook, I practice the techniques I have learned, but on the MNIST dataset.
     - Build a more complete model with `eval()` and `train()` methods.
     - show images of wrong classified examples.
