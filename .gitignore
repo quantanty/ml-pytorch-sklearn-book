@@ -8,3 +8,16 @@ __pycache__/
 test*
 models/
 lightning_logs/
+*.aux
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.toc
+*.bib
+*.bbl
+*.blg
+*.idx
+*.ilg
+*.ind
