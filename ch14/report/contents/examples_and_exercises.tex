@@ -1,0 +1,129 @@
+\subsection{Implementing a deep CNN using PyTorch}
+Prepare the MNIST dataset:
+\begin{pythoncode}
+import torchvision
+from torchvision import transforms
+import torch
+x = torch.tensor([5, 5, 5])
+
+from torch import nn
+
+image_path = '../data/'
+transform = transforms.Compose([
+    transforms.ToTensor()
+])
+mnist_dataset = torchvision.datasets.MNIST(root=image_path, train=True, transform=transform, download=False)
+
+from torch.utils.data import Subset
+mnist_valid_dataset = Subset(mnist_dataset, torch.arange(10000))
+mnist_train_datset = Subset(mnist_dataset, torch.arange(10000, len(mnist_dataset)))
+mnist_test_dataset = torchvision.datasets.MNIST(root=image_path, train=False, transform=transform, download=False)
+
+from torch.utils.data import DataLoader
+batch_size = 64
+torch.manual_seed(1)
+train_dl = DataLoader(mnist_train_datset, batch_size, shuffle=True)
+valid_dl = DataLoader(mnist_valid_dataset, batch_size, shuffle=False)
+\end{pythoncode}
+
+Construct the CNN model using the \texttt{Sequential} class:
+\begin{pythoncode}
+model = nn.Sequential()
+model.add_module(
+    'conv1',
+    nn.Conv2d(
+        in_channels=1, out_channels=32, kernel_size=5, padding=2
+    )
+)
+model.add_module('relu1', nn.ReLU())
+model.add_module('pool1', nn.MaxPool2d(kernel_size=2))
+model.add_module(
+    'conv2',
+    nn.Conv2d(
+        in_channels=32, out_channels=64, kernel_size=5, padding=2
+    )
+)
+model.add_module('relu2', nn.ReLU())
+model.add_module('pool2', nn.MaxPool2d(kernel_size=2))
+model.add_module('fc1', nn.Linear(3136, 1024))
+model.add_module('relu3', nn.ReLU())
+model.add_module('dropout', nn.Dropout(p=0.5))
+model.add_module('fc2', nn.Linear(1024, 10))
+\end{pythoncode}
+
+Train accuracy and validation accuracy for 20 epochs:
+\begin{verbatim}
+Epoch 1 accuracy: 0.9496 val_accuracy: 0.9792
+...
+Epoch 10 accuracy: 0.9964 val_accuracy: 0.9902
+...
+Epoch 20 accuracy: 0.9981 val_accuracy: 0.9909
+\end{verbatim}
+
+\subsection{Smile classification from face images using CNN}
+\begin{pythoncode}
+get_smile = lambda attr: attr[18]
+
+transform_train = transforms.Compose([
+    transforms.RandomCrop([178, 178]),
+    transforms.RandomHorizontalFlip(),
+    transforms.Resize([64, 64]),
+    transforms.ToTensor(),
+])
+
+transform = transforms.Compose([
+    transforms.CenterCrop([178, 178]),
+    transforms.Resize([64, 64]),
+    transforms.ToTensor(),
+])
+\end{pythoncode}
+
+\begin{pythoncode}
+celeba_train_dataset = torchvision.datasets.CelebA(image_path, split='train', target_type='attr', download=False, transform=transform_train, target_transform=get_smile)
+celeba_train_dataset = Subset(celeba_train_dataset, torch.arange(16000))
+celeba_valid_dataset = Subset(celeba_valid_dataset, torch.arange(1000))
+\end{pythoncode}
+
+\begin{pythoncode}
+batch_size = 32
+torch.manual_seed(1)
+train_dl = DataLoader(celeba_train_dataset, batch_size, shuffle=True)
+valid_dl = DataLoader(celeba_valid_dataset, batch_size, shuffle=False)
+test_dl = DataLoader(celeba_test_dataset, batch_size, shuffle=False)
+\end{pythoncode}
+
+\begin{pythoncode}
+model = nn.Sequential()
+model.add_module('conv1', nn.Conv2d(in_channels=3, out_channels=32, kernel_size=3, padding=1))
+model.add_module('relu1', nn.ReLU())
+model.add_module('pool1', nn.MaxPool2d(kernel_size=2))
+
+model.add_module('conv2', nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, padding=1))
+model.add_module('relu2', nn.ReLU())
+model.add_module('pool2', nn.MaxPool2d(kernel_size=2))
+
+model.add_module('conv3', nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, padding=1))
+model.add_module('relu3', nn.ReLU())
+model.add_module('pool3', nn.MaxPool2d(kernel_size=2))
+
+model.add_module('conv4', nn.Conv2d(in_channels=128, out_channels=256, kernel_size=3, padding=1))
+model.add_module('relu4', nn.ReLU())
+
+model.add_module('pool4', nn.AvgPool2d(kernel_size=8))
+model.add_module('flatten', nn.Flatten())
+model.add_module('fc', nn.Linear(256, 1))
+model.add_module('sigmoid', nn.Sigmoid())
+\end{pythoncode}
+
+\begin{pythoncode}
+loss_fn = nn.BCELoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+\end{pythoncode}
+
+\begin{verbatim}
+Epoch 1 accuracy: 0.6350 val_accuracy: 0.7100
+...
+Epoch 15 accuracy: 0.8899 val_accuracy: 0.8990
+...
+Epoch 30 accuracy: 0.9139 val_accuracy: 0.9030
+\end{verbatim}

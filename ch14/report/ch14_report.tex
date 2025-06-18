@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}
+\usepackage[T5]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage[colorlinks=true,
+            linkcolor=blue,
+            filecolor=magenta,
+            urlcolor=cyan,
+            citecolor=green,
+            bookmarks=true,
+            bookmarksopen=true]{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{margin=1in}
+% \usepackage{listings}
+\usepackage{minted}
+\usepackage{xcolor}
+\usepackage{caption}
+
+
+\newminted[pythoncode]{python3}{linenos, style=vs_lm, framerule=0.5pt, frame=single, breaklines}
+
+\title{Chapter 14 Report: \\ Classifying Images with CNNs}
+\author{Quan Pham}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Abstract}
+\input{contents/abstract.tex}
+
+\section{Key Concepts}
+\input{contents/key_concepts.tex}
+
+\section{Algorithms and Models Studied}
+\input{contents/algorithms_and_models.tex}
+
+\section{Code Examples and Practical Exercises}
+\input{contents/examples_and_exercises.tex}
+
+\section{Learnings and Challenges}
+\input{contents/learnings_and_challenges.tex}
+
+\section{Conclusion and Furture work}
+\input{contents/conclusion_and_future_work.tex}
+
+\nocite{lecun1989handwritten}
+
+% \newpage
+% \section*{References}
+% \addcontentsline{toc}{section}{References}
+% \vspace{-0.5em}
+% \begin{itemize}
+%     \item LeCun et al. (1989), \textit{Handwritten Digit Recognition with a Back-Propagation Network}.
+%     \item Krizhevsky et al. (2012), \textit{ImageNet Classification with Deep CNNs}.
+%     \item Srivastava et al. (2014), \textit{Dropout: A Simple Way to Prevent Overfitting}.
+%     \item Kingma and Ba (2014), \textit{Adam: A Method for Stochastic Optimization}.
+% \end{itemize}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
