@@ -1,0 +1,35 @@
+\subsection{Sequential data}
+
+Sequential data, also known as sequence data or sequences, is a type of data that its elements appear in a certain order, with interdependent relationships over time or position. The order of these elements is crucial, as it provide context and structural information that cannot be ignore during analysis. Changing the order can alter or even eliminate the meaning of the entire dataset. 
+
+Sequential data can have different lengths, from short sequences to very long ones. These are some typical examples:
+\textbf{Time series:} Daily stock price, sensor data (temperature, humidity), heart rate.
+\textbf{Natural language:} Words in a sentence, sentences in a paragraph.
+\textbf{Audio:} Voice waveforms, music sequences.
+\textbf{Video:} Sequences of frames
+\textbf{Biological sequence:} DNA sequences, protein sequences.
+
+\subsection{Categories of sequence modeling}
+If either the input or output is a sequence, the modeling task likely falls into one of these categories:
+\begin{itemize}
+    \item Many-to-one: The input data is a sequence, but the output is a fixed-size vector or scalar, not a sequence.
+    \item One-to-many: The input data is in standard format and not a sequence, but the output is a sequence.
+    \item Many-to-many: Both the input and output arrays are sequences. This category can be further divided based on whether the input and output are synchronized.
+\end{itemize}
+
+\subsection{Recurrent Neural Networks}
+A recurrent neural network (RNN) is any network that contains a cycle within its network connections, meaning that the value of some unit is directly, or indirectly, dependent on its own earlier outputs as an input
+
+Computing activation in an RNN is very similar to standard multilayer peerceptrons and other types of feedforward NNs. For the hidden layer, the net input (preactivation), is computed as follows:
+\[\bm{z}_h^{(t)} = \bm{W}_{xh}\bm{x}^{(t)} + \bm{W}_{hh}\bm{h}^{(t-1)} + \bm{b}_h\]
+Then, the activations of the hidden units at the time step, $t$, are calculated as follows:
+\[\bm{h}^{(t)} = \sigma_h(\bm{z}_h^{(t)}) = \sigma_h(\bm{W}_{xh}\bm{x}^{(t)} + \bm{W}_{hh}\bm{h}^{(t-1)} + \bm{b}_h)\]
+Once the activations of the hidden units at the current time step are computed, then the activations of the hidden units at the time step are computed, then the activations of the output units will be computed as follows:
+\[\bm{o}^{(t)} = \sigma_o(\bm{W}_{ho}\bm{h}^{(t)} + \bm{b}_o)\]
+
+\subsection{Challenges of learning long-range interactions}
+Recurrent neural networks (RNNs) are theoretically capable of capturing dependencies across arbitrary sequence lengths. However, in practice, learning long-range interactions is challenging due to issues such as vanishing and exploding gradients during training. When backpropagating errors through many time steps, gradients can shrink exponentially (vanishing) or grow uncontrollably (exploding), making it difficult for the network to learn dependencies that span long intervals.
+
+The vanishing gradient problem causes the network to "forget" information from earlier time steps, limiting its ability to model long-term dependencies. Conversely, exploding gradients can lead to unstable updates and numerical issues. 
+
+% Various techniques have been proposed to address these challenges, including gradient clipping, careful initialization, and specialized architectures such as Long Short-Term Memory (LSTM) and Gated Recurrent Unit (GRU) networks, which introduce gating mechanisms to better preserve and control information flow over long sequences.

@@ -1,0 +1,27 @@
+\subsection{Converting raw text into sequence data}
+\begin{itemize}
+    \item remove HTML markups, punctuation and other non-letter characters
+    \item extract emoticons
+    \item split text into words
+    \item encoding each unique token into intergers
+    \item padding sequences for each batch
+\end{itemize}
+
+
+\subsection{Backpropagation Through Time}
+\[L = \sum_{t=1}^T L^{(t)}\]
+
+\[\frac{\partial L^{(t)}}{\partial \bm{W}_{hh}} = \frac{\partial L^{(t)}}{\partial \bm{o}^{(t)}} \times \frac{\partial \bm{o}^{(t)}}{\partial \bm{h}^{(t)}} \times (\sum_{k=1}^{t} \frac{\partial \bm{h}^{(t)}}{\partial \bm{h}^{(k)}} \times \frac{\partial \bm{h}^{(k)}}{\partial \bm{W}_{hh}})\]
+
+\[\frac{\partial \bm{h}^{(t)}}{\partial \bm{h}^{(t)}} = \prod_{i=k+1}^{t} \frac{\partial \bm{h}^{(i)}}{\partial \bm{h}^{(i-1)}}\]
+
+\subsection{Truncated Backpropagation Through Time}
+Using gradient clipping, we specify a cut-off or threshold value for the gradients, and we assign this cut-off value to gradient values that exceed this value. In contrast, TBPTT simply limits the number of time steps that the signal can backpropagate after each forward pass. For example, even if the sequence has 100 elements or steps, we may only backpropagate the most recent 20 time steps.
+
+\subsection{Long-short Term Memory}
+LSTMs resemble standard recurrent neural networks but here each ordinary recurrent node is replaced by a memory cell. Each memory cell contains an internal state, i.e., a node with a self-connected recurrent edge of fixed weight 1, ensuring that the gradient can pass across many time steps without vanishing or exploding.
+
+\subsection{Gated Recurrent Units}
+GRUs have a simpler architecture than LSTMs; therefore, they are computationally more efficient, while their performance in some tasks, such as polyphonic music modeling, is comparable to LSTMs.
+
+\subsection{Bidirectional RNNs}

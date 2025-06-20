@@ -1,0 +1,55 @@
+\documentclass[12pt]{article}
+\usepackage[T5]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath, amssymb, bm}
+\usepackage{graphicx}
+\usepackage[colorlinks=true,
+            linkcolor=blue,
+            filecolor=magenta,
+            urlcolor=cyan,
+            citecolor=green,
+            bookmarks=true,
+            bookmarksopen=true]{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{margin=1in}
+% \usepackage{listings}
+\usepackage{minted}
+\usepackage{xcolor}
+\usepackage{caption}
+
+\newminted[pythoncode]{python3}{linenos, style=vs_lm, framerule=0.5pt, frame=single, breaklines}
+
+\title{Chapter 15 Report: \\ Modeling Sequential Data Using Recurrent Neural Networks}
+\author{Quan Pham}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Abstract}
+\input{contents/abstract.tex}
+
+\section{Key concepts}
+\input{contents/key_concepts.tex}
+
+\section{Algorithms and Models Studied}
+\input{contents/algorithms_and_models.tex}
+
+\section{Code Examples and Pratical Exercises}
+\input{contents/examples_and_exercises.tex}
+
+\section{Learnings and Challenges}
+\input{contents/learnings_and_challenges.tex}
+
+\section{Conclusion}
+\input{contents/conclusion.tex}
+
+% \bibliographystyle{abbrv}
+% \bibliography{references}
+
+\end{document}
