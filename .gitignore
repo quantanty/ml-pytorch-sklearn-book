@@ -15,9 +15,10 @@ lightning_logs/
 *.fdb_latexmk
 *.synctex.gz
 *.toc
-*.bib
 *.bbl
 *.blg
 *.idx
 *.ilg
 *.ind
+template*
+_minted*
