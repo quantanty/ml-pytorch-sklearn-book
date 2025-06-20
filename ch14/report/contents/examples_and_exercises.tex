@@ -1,11 +1,13 @@
+In this chapter, I delve into two image classification problems presented in the book. I begin by carefully studying the provided code examples to grasp the fundamental concepts and implementation details. Following this, I engage in hands-on practice to solidify my understanding and explore potential modifications or extensions.
+\subsection{Datasets}
+In this study, two distinct datasets are employed: the MNIST dataset, a widely recognized benchmark for handwritten digit classification, and the CelebA dataset, a large-scale face attributes dataset. The MNIST dataset serves as an initial case study for implementing and evaluating a basic CNN architecture, while the CelebA dataset is utilized for a more complex task: smile classification from face images.
+
 \subsection{Implementing a deep CNN using PyTorch}
-Prepare the MNIST dataset:
+In the previous chapter, I achieved 95.6\% accuracy in handwritten digit recognition using a neural network with two hidden layers. In this chapter, I implement a CNN to explore whether it can achieve superior predictive performance on the same task.
+\subsubsection{Loading and preprocessing the MNIST dataset}
 \begin{pythoncode}
 import torchvision
 from torchvision import transforms
-import torch
-x = torch.tensor([5, 5, 5])
-
 from torch import nn
 
 image_path = '../data/'
@@ -26,7 +28,7 @@ train_dl = DataLoader(mnist_train_datset, batch_size, shuffle=True)
 valid_dl = DataLoader(mnist_valid_dataset, batch_size, shuffle=False)
 \end{pythoncode}
 
-Construct the CNN model using the \texttt{Sequential} class:
+\subsubsection{Construct the CNN model}
 \begin{pythoncode}
 model = nn.Sequential()
 model.add_module(
@@ -51,7 +53,14 @@ model.add_module('dropout', nn.Dropout(p=0.5))
 model.add_module('fc2', nn.Linear(1024, 10))
 \end{pythoncode}
 
-Train accuracy and validation accuracy for 20 epochs:
+\subsubsection{Train and evaluate the model}
+I used cross-entropy loss and Adam optimizer with learning rate 0.001.
+\begin{pythoncode}
+loss_fn = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+\end{pythoncode}
+
+This is the output of training progress:
 \begin{verbatim}
 Epoch 1 accuracy: 0.9496 val_accuracy: 0.9792
 ...
@@ -59,6 +68,7 @@ Epoch 10 accuracy: 0.9964 val_accuracy: 0.9902
 ...
 Epoch 20 accuracy: 0.9981 val_accuracy: 0.9909
 \end{verbatim}
+We observe that the CNN model achieves a validation accuracy of 99.09\% on the MNIST dataset. This result demonstrates a significant improvement in predictive performance compared to the 95.6\% accuracy achieved with the simple neural network in the previous chapter, highlighting the effectiveness of CNNs for image classification tasks.
 
 \subsection{Smile classification from face images using CNN}
 \begin{pythoncode}
@@ -127,3 +137,17 @@ Epoch 15 accuracy: 0.8899 val_accuracy: 0.8990
 ...
 Epoch 30 accuracy: 0.9139 val_accuracy: 0.9030
 \end{verbatim}
+
+\subsection{Modularizing the code}
+The notebook files contain a substantial amount of code. It would be advantageous to divide the code into smaller, more manageable modules for easier maintenance and modification.
+
+There are three processes that I can modularize: loading and processing data, building model classes, and building trainer classes. The files created are \texttt{MyData.py}, \texttt{MyModels.py}, and \texttt{MyTrainer.py}.
+
+\subsection{Practice on CelebA dataset}
+To further enhance my understanding and skills, I engaged in a series of practical exercises using the CelebA dataset. These exercises focused on several key areas:
+
+\textbf{Data Loading and Balancing:} I implemented a data loading process that specifically addressed the class imbalance between 'smile' and 'not smile' instances within the training dataset. The training dataset was configured to use 10,000 examples. A validation dataset of 1,000 examples was also prepared.
+
+\textbf{CNN Architecture Exploration:} I experimented with different CNN architectures to evaluate their impact on smile classification performance. These architectures were named v1, v2, v3, and v4, each representing a unique configuration of convolutional layers, pooling layers, and fully connected layers. The goal was to identify the architecture that yielded the highest accuracy and generalization ability.
+
+\textbf{Model Persistence:} I learned how to save trained models and checkpoints, enabling the resumption of training from a specific point and the reuse of trained models for inference. This involved using PyTorch's model saving and loading functionalities.
