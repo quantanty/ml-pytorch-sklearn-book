@@ -22,31 +22,8 @@ Important hyperparameters: padding (full, same, valid), stride.
     \item Can use overlapping or non-overlapping pooling.
 \end{itemize}
 
-\subsection{Convolution layer}
-\begin{itemize}
-    \item Handling multiple input/output channels:
-\end{itemize}
-
-\begin{align*}
-Z^{\text{conv}}[:,:,k] &= \sum_{c=1}^{C_{in}} W[:,:,c,k] * X[:,:,c] \\
-Z[:,:,k] &= Z^{\text{conv}} + b[k] \\
-A[:,:,k] &= \sigma(Z[:,:,k])
-\end{align*}
-
-\subsection{Regularization}
-\begin{itemize}
-    \item L2 regularization (weight decay) and dropout help prevent overfitting.
-    \item Dropout encourages robust feature learning.
-\end{itemize}
-
 \subsection{Loss Functions}
 \begin{itemize}
     \item Binary classification: \texttt{BCEWithLogitsLoss}, \texttt{BCELoss}
     \item Multiclass: \texttt{CrossEntropyLoss}, \texttt{NLLLoss}
-\end{itemize}
-
-\subsection{Other Techniques}
-\begin{itemize}
-    \item \textbf{Data augmentation}: enhances generalization.
-    \item \textbf{Global average pooling}: reduces parameters.
 \end{itemize}
