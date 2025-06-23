@@ -1,0 +1,155 @@
+\subsection{Custom dataset class}
+
+Define MysteriousIsland class (utils/data.py):
+
+\begin{pythoncode}
+class MysteriousIsland(Dataset):
+    def __init__(self, path, chunk_size, start=None, end=None, keep_text=True, keep_text_encoded=True):
+        super().__init__()
+        with open(path, 'r', encoding='utf8') as fp:
+            text = fp.read()
+
+        if start and end:
+            start_idx = text.find(start)
+            end_idx = text.find(end)
+            text = text[start_idx:end_idx]
+
+        chars = sorted(set(text))
+        self.char2int = {ch:i for i, ch in enumerate(chars)}
+        self.int2char = np.array(chars)
+
+        text_encoded = np.array([self.char2int[ch] for ch in text])
+        self.chunks = torch.tensor(np.array([text_encoded[i:i+chunk_size] for i in range(len(text_encoded) - chunk_size)]))
+
+        if keep_text:
+            self.text = text
+        
+        if keep_text_encoded:
+            self.text_encoded = text_encoded
+
+    def __len__(self):
+        return len(self.chunks)
+    
+    def __getitem__(self, idx):
+        chunk = self.chunks[idx]
+        return chunk[:-1].long(), chunk[1:].long()
+    
+    def get_encoder_decoder(self):
+        encoder = lambda text: np.array([self.char2int[ch] for ch in text])
+        decoder = lambda seq: ''.join(self.int2char[seq])
+        return encoder, decoder
+\end{pythoncode}
+
+And here is how to use:
+
+\begin{pythoncode}
+start = 'THE MYSTERIOUS ISLAND'
+end = '\n\n*** END OF THE PROJECT GUTENBERG'
+mys_dataset = utils.data.MysteriousIsland('../data/1268-0.txt', 41, start, end)
+\end{pythoncode}
+
+\subsection{Split dataset function}
+
+This is the function I write (utils/data.py):
+\begin{pythoncode}
+def split_dataset(dataset, train_size=None, test_size=None, random_state=None):
+    ...
+    indices = torch.randperm(len(dataset))
+    train_indices = indices[:n_train]
+    test_indices = indices[n_train:n_train+n_test]
+    return Subset(dataset, train_indices), Subset(dataset, test_indices)
+\end{pythoncode}
+
+\subsection{Adjust hyperparameter to explore new models}
+
+
+
+\begin{pythoncode}
+vocab_size = 79
+model_v1 = utils.model.RNN_v1(vocab_size)
+model_v1.load_state_dict(torch.load('../models/gen-v1.pth'))
+model_v1 = model_v1.to(device)
+model_v1
+\end{pythoncode}
+
+\begin{verbatim}
+RNN_v1(
+  (embedding): Embedding(79, 256)
+  (rnn): LSTM(256, 512, batch_first=True)
+  (fc): Linear(in_features=512, out_features=79, bias=True)
+)
+\end{verbatim}
+
+
+\begin{pythoncode}
+# utils.model.py
+class RNN_v2(nn.Module):
+    def __init__(self, vocab_size, embed_dim=128, rnn_hidden_size=512, num_layers=1):
+        super().__init__()
+        self.embedding = nn.Embedding(vocab_size, embed_dim)
+        self.rnn_hidden_size = rnn_hidden_size
+        self.rnn = nn.LSTM(embed_dim, rnn_hidden_size, num_layers=num_layers, bidirectional=True, batch_first=True)
+        self.layer_norm = nn.LayerNorm(2*rnn_hidden_size)
+        self.fc = nn.Linear(2*rnn_hidden_size, vocab_size)
+
+    def forward(self, x, hidden, cell):
+        out = self.embedding(x).unsqueeze(1)
+        out, (hidden, cell) = self.rnn(out, (hidden, cell))
+        out = self.layer_norm(out)
+        out = self.fc(out).reshape(out.size(0), -1)
+        return out, hidden, cell
+
+    def init_hidden(self, batch_size):
+        hidden = torch.zeros(2, batch_size, self.rnn_hidden_size)
+        cell = torch.zeros(2, batch_size, self.rnn_hidden_size)
+        return hidden, cell
+\end{pythoncode}
+
+\begin{pythoncode}
+model_v2 = utils.model.RNN_v2(vocab_size)
+model_v2.load_state_dict(torch.load('../models/gen-v2.2.pth'))
+model_v2 = model_v2.to(device)
+model_v2
+\end{pythoncode}
+
+\begin{verbatim}
+RNN_v2(
+  (embedding): Embedding(79, 128)
+  (rnn): LSTM(128, 512, batch_first=True, bidirectional=True)
+  (layer_norm): LayerNorm((1024,), eps=1e-05, elementwise_affine=True)
+  (fc): Linear(in_features=1024, out_features=79, bias=True)
+)
+\end{verbatim}
+
+\begin{pythoncode}
+print(sample(model_v1, "the mysterious", 500, 1.0))
+\end{pythoncode}
+
+This is the output:
+
+\noindent
+the mysterious voice,-pity of spine from the sails. It shoulders. But the enemys of the
+enormous acid and twenty feet from the return to the brig, delighted ear to accompanied ourselves in a few
+works narrowed towards him a sort of flames were scarcely eaten, noticed the lexter on an insuffactured. Thus the stranger might happen a pale of step thus then, to life, at this place in the unfortunate man who does not so
+ching towards the best felt. He strongly attracted fifty degrees us.
+I could be a little band,
+
+
+\begin{pythoncode}
+print(sample(model_v2, "the mysterious", 500, 1.0))
+\end{pythoncode}
+
+This is the output:
+
+\noindent
+the mysterious places! Why should one!”
+
+Cyrus Harding then thought of took the question of four” rich, he does not careful to penetrate intourable condition. He expected to come caway or
+that of publicious. Besides, Top arrived at the struggle and crew of eggs.
+
+“Ah!y like a wild with pyrites presented no marker.
+
+Presently, the settlers immediately ran began by astonished great results. After having done no less exciting as he was accustomed to return, and arrived at
+the tenarts of Granite House.
+
+It was a

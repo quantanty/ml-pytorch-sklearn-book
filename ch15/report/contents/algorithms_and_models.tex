@@ -25,3 +25,11 @@ LSTMs resemble standard recurrent neural networks but here each ordinary recurre
 GRUs have a simpler architecture than LSTMs; therefore, they are computationally more efficient, while their performance in some tasks, such as polyphonic music modeling, is comparable to LSTMs.
 
 \subsection{Bidirectional RNNs}
+A Bidirectional Recurrent Neural Network (BRNN) is a type of recurrent neural network (RNN) that processes sequential data by analyzing it in both forward and backward directions. Unlike standard, or unidirectional, RNNs which process sequences chronologically (from past to future), a BRNN uses two separate hidden layers:
+
+\begin{itemize}
+    \item Forward Layer: Processes the input sequence from start to end.
+    \item Backward Layer: Processes the input sequence from end to start (in reverse).
+\end{itemize}
+
+The outputs from both of these layers are then combined (e.g., by concatenation, summation, or averaging) at each time step to produce the final output. This dual-directional approach allows the model to capture context from both past and future elements in the sequence, providing a more comprehensive understanding.
